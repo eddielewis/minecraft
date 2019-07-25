@@ -1,0 +1,11 @@
+*.log
+*.lock
+*.tmp
+*.info
+Library/
+Logs/
+obj/
+Packages/
+ProjectSettings/
+Temp/
+.vscode/
