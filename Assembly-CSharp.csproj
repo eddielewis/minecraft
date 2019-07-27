@@ -56,12 +56,14 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\ActiveChunks.cs" />
+     <Compile Include="Assets\Scripts\BlockGenerator.cs" />
      <Compile Include="Assets\Scripts\Chunk.cs" />
      <Compile Include="Assets\Scripts\ChunkInteraction.cs" />
      <Compile Include="Assets\Scripts\ChunkManager.cs" />
      <Compile Include="Assets\Scripts\ChunkStorage.cs" />
      <Compile Include="Assets\Scripts\Interfaces\IChunkBlockData.cs" />
      <Compile Include="Assets\Scripts\Interfaces\IChunkData.cs" />
+     <Compile Include="Assets\Scripts\Side.cs" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>/home/ed/Projects/Unity/Minecraft/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>

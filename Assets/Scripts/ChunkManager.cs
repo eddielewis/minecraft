@@ -44,12 +44,12 @@ public class ChunkManager : MonoBehaviour
         }
     }
 
-    private Vector2Int Vector3To2(Vector3Int vector)
+    public static Vector2Int Vector3To2(Vector3Int vector)
     {
         return new Vector2Int(vector.x, vector.z);
     }
 
-    private Vector3Int Vector2To3(Vector2Int vector, int y)
+    public static Vector3Int Vector2To3(Vector2Int vector, int y)
     {
         return new Vector3Int(vector.x, y, vector.y);
     }
@@ -64,8 +64,8 @@ public class ChunkManager : MonoBehaviour
         GameObject obj = new GameObject("Chunk" + pos.x + pos.z);
         obj.transform.position = pos;
         ChunkInteraction chunkInteraction = obj.AddComponent<ChunkInteraction>();
-        chunkInteraction.Initialise()
-        chunkList.Add(Vector3To2(pos), );
+        chunkInteraction.Initialise();
+        chunkList.Add(Vector3To2(pos), chunkInteraction);
     }
     public void RemoveBlock(Vector3Int blockPos)
     {

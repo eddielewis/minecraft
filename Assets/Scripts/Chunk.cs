@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-internal struct BlockAdjacency
+public struct BlockAdjacency
 {
-    internal bool renderPositiveX;
-    internal bool renderNegativeX;
-    internal bool renderPositiveY;
-    internal bool renderNegativeY;
-    internal bool renderPositiveZ;
-    internal bool renderNegativeZ;
+    public bool renderPositiveX;
+    public bool renderNegativeX;
+    public bool renderPositiveY;
+    public bool renderNegativeY;
+    public bool renderPositiveZ;
+    public bool renderNegativeZ;
 
-    internal BlockAdjacency(bool renderPositiveX, bool renderNegativeX, bool renderPositiveY, bool renderNegativeY, bool renderPositiveZ, bool renderNegativeZ)
+    public BlockAdjacency(bool renderPositiveX, bool renderNegativeX, bool renderPositiveY, bool renderNegativeY, bool renderPositiveZ, bool renderNegativeZ)
     {
         this.renderPositiveX = renderPositiveX;
         this.renderNegativeX = renderNegativeX;
@@ -21,7 +21,7 @@ internal struct BlockAdjacency
         this.renderNegativeZ = renderNegativeZ;
     }
 
-    internal void RemoveBlock()
+    public void RemoveBlock()
     {
         this.renderPositiveX = false;
         this.renderNegativeX = false;
@@ -45,12 +45,13 @@ public class Chunk : IChunkBlockData
             }
             return BlockAdjacencies;
         }
+        set { }
     }
 
     public Chunk()
     {
         blockTypes = new int[ChunkManager.CHUNK_HEIGHT][][];
-        blockAdjacencies = null;
+        BlockAdjacencies = null;
         GenerateFakeChunk();
     }
 
@@ -64,9 +65,9 @@ public class Chunk : IChunkBlockData
                 int[] lineBlockTypes = new int[ChunkManager.CHUNK_WIDTH];
                 for (int x = 0; x < ChunkManager.CHUNK_WIDTH; x++)
                 {
-                    lineBlockList[x] = 1;
+                    lineBlockTypes[x] = 1;
                 }
-                layerBlockTypes[y] = lineBlockList;
+                layerBlockTypes[y] = lineBlockTypes;
             }
             blockTypes[z] = layerBlockTypes;
         }
@@ -103,7 +104,7 @@ public class Chunk : IChunkBlockData
         );
     }
 
-    public void RemoveBlock(Vector3Int pos)
+    public void RemoveBlock(Vector3Int pos, Vector2Int chunkPos)
     {
         int x = pos.x - chunkPos.x;
         int y = pos.y - chunkPos.y;
@@ -115,17 +116,17 @@ public class Chunk : IChunkBlockData
         // The positive-x block needs to have its negative-x side rendered
         BlockAdjacencies[z][y][x + 1].renderNegativeX = true;
         BlockAdjacencies[z][y][x - 1].renderPositiveX = true;
-        BlockAdjacencies[z][y + 1][x].renderNegativeX = true;
+        BlockAdjacencies[z][y + 1][x].renderNegativeY = true;
         BlockAdjacencies[z][y - 1][x].renderPositiveY = true;
-        BlockAdjacencies[z + 1][y][x].renderNegativeX = true;
+        BlockAdjacencies[z + 1][y][x].renderNegativeZ = true;
         BlockAdjacencies[z - 1][y][x].renderPositiveZ = true;
     }
 
-    public void AddBlock(Vector3Int pos, int type)
+    public void AddBlock(Vector3Int blockPos, Vector2Int chunkPos, int type)
     {
-        int x = pos.x - chunkPos.x;
-        int y = pos.y - chunkPos.y;
-        int z = pos.z;
+        int x = blockPos.x - chunkPos.x;
+        int y = blockPos.y - chunkPos.y;
+        int z = blockPos.z;
 
         blockTypes[z][y][x] = type;
         BlockAdjacencies[z][y][x] = CheckAdjacency(x, y, z);
@@ -133,9 +134,9 @@ public class Chunk : IChunkBlockData
         // The positive-x block needs to have its negative-x side rendered
         BlockAdjacencies[z][y][x + 1].renderNegativeX = false;
         BlockAdjacencies[z][y][x - 1].renderPositiveX = false;
-        BlockAdjacencies[z][y + 1][x].renderNegativeX = false;
+        BlockAdjacencies[z][y + 1][x].renderNegativeY = false;
         BlockAdjacencies[z][y - 1][x].renderPositiveY = false;
-        BlockAdjacencies[z + 1][y][x].renderNegativeX = false;
+        BlockAdjacencies[z + 1][y][x].renderNegativeZ = false;
         BlockAdjacencies[z - 1][y][x].renderPositiveZ = false;
     }
 

@@ -17,7 +17,6 @@ public class ChunkInteraction : MonoBehaviour
 
     void Start()
     {
-        this.chunkPos = gameObject.transform.position;
-
+        this.chunkPos = ChunkManager.Vector3To2(Vector3Int.RoundToInt(gameObject.transform.position));
     }
 }
